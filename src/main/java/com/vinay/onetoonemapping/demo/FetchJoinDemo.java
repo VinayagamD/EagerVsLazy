@@ -6,6 +6,7 @@ package com.vinay.onetoonemapping.demo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import com.vinay.onetoonemapping.entity.Course;
 import com.vinay.onetoonemapping.entity.Instructor;
@@ -15,7 +16,7 @@ import com.vinay.onetoonemapping.entity.InstructorDetail;
  * @author Dell
  *
  */
-public class EagerLazyDemo {
+public class FetchJoinDemo {
 
 	/**
 	 * @param args
@@ -34,11 +35,22 @@ public class EagerLazyDemo {
 			System.out.println("Creating 3 student object.... ");
 			// start a transaction
 			session.beginTransaction();
+			
+//			option 2: Hibernate query with HQL
+			
 
 			// get the instructor id from the db
 			int id = 4;
-			Instructor instructor = session.get(Instructor.class, id);
-			System.out.println("Instructor : "+instructor);
+			Query<Instructor> query = session.createQuery("select i FROM Instructor i "
+					+ " JOIN FETCH i.courses "
+					+ " WHERE i.id = :theInstructorId ", 
+					Instructor.class);
+			
+//			Set the query parameter
+			query.setParameter("theInstructorId", id);
+			
+//			execute the query and get instructor
+			Instructor instructor = query.getSingleResult();
 			System.out.println("Courses : "+ instructor.getCourses());
 //			close the session
 			session.close();
