@@ -16,7 +16,7 @@ import com.vinay.onetoonemapping.entity.Review;
  * @author Dell
  *
  */
-public class GetCoursesAndReviewsDemo {
+public class DeleteCoursesAndReviewsDemo {
 
 	/**
 	 * @param args
@@ -41,12 +41,15 @@ public class GetCoursesAndReviewsDemo {
 			int id = 15;
 			Course course =  session.get(Course.class, id);
 //			print the course
+//			Deleting the course 
+			System.out.println("Deleting the course....");
 			System.out.println(course);
 			
 //			print the course reviews
 			System.out.println(course.getReviews());
 			
-			
+//			delete the course
+			session.delete(course);
 			// commit the transaction
 			session.getTransaction().commit();
 			System.out.println("Done !");
