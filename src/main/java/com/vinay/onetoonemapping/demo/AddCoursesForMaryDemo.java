@@ -11,12 +11,13 @@ import com.vinay.onetoonemapping.entity.Course;
 import com.vinay.onetoonemapping.entity.Instructor;
 import com.vinay.onetoonemapping.entity.InstructorDetail;
 import com.vinay.onetoonemapping.entity.Review;
+import com.vinay.onetoonemapping.entity.Student;
 
 /**
  * @author Dell
  *
  */
-public class GetCoursesAndReviewsDemo {
+public class AddCoursesForMaryDemo {
 
 	/**
 	 * @param args
@@ -28,6 +29,7 @@ public class GetCoursesAndReviewsDemo {
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
 				.addAnnotatedClass(Review.class)
+				.addAnnotatedClass(Student.class)
 				.buildSessionFactory();
 		// create session
 		Session session = factory.getCurrentSession();
@@ -37,16 +39,34 @@ public class GetCoursesAndReviewsDemo {
 			// start a transaction
 			session.beginTransaction();
 
-			//  get the course
-			int id = 15;
-			Course course =  session.get(Course.class, id);
-//			print the course
+			// get the instructor id from the db
+			
+			// create some courses
+			Course course = new Course("Pacman - How To Score One Million Points");
+			
+			// add some reviews
+			
+			
+//			save the course ... and leverage the cascade all :-)
+			System.out.println("Saving the course ");
 			System.out.println(course);
+			session.save(course);
+			System.out.println("Saved the course " + course);
 			
-//			print the course reviews
-			System.out.println(course.getReviews());
+//			create the student
+			Student student1 = new Student("vinay","ganesh","vinayganeshdxj@gmail.com");
+			Student student2 = new Student("mary","public","mary@gmail.com");
+//			add the student to the course
+			course.addStudent(student1);
+			course.addStudent(student2);
 			
+//			save the students
+			System.out.println("\n Saving the students ... ");
+			session.save(student1);
+			session.save(student2);
 			
+			System.out.println("Saved students : "+course.getStudents());
+
 			// commit the transaction
 			session.getTransaction().commit();
 			System.out.println("Done !");

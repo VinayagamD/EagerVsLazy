@@ -10,12 +10,14 @@ import org.hibernate.cfg.Configuration;
 import com.vinay.onetoonemapping.entity.Course;
 import com.vinay.onetoonemapping.entity.Instructor;
 import com.vinay.onetoonemapping.entity.InstructorDetail;
+import com.vinay.onetoonemapping.entity.Review;
+import com.vinay.onetoonemapping.entity.Student;
 
 /**
  * @author Dell
  *
  */
-public class DeleteCoursesDemo {
+public class DeletePacmanCoursesDemo {
 
 	/**
 	 * @param args
@@ -26,6 +28,8 @@ public class DeleteCoursesDemo {
 				addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
+				.addAnnotatedClass(Review.class)
+				.addAnnotatedClass(Student.class)
 				.buildSessionFactory();
 		// create session
 		Session session = factory.getCurrentSession();
@@ -35,16 +39,14 @@ public class DeleteCoursesDemo {
 			// start a transaction
 			session.beginTransaction();
 
-			// get the instructor id from the db
-			int id = 10;
-			Course course = session.get(Course.class, id);
-			System.out.println("Course : "+course);
+//			get the pacman course from db
+			int courseId = 16;
+			Course course = session.get(Course.class, courseId);
+//			delete the  course
+			System.out.println("Deleting the course : "+course);
+			
+			session.delete(course);
 
-			
-			// Delete the course
-						System.out.println("Deleting the course : " + course);
-						session.delete(course);
-			
 			// commit the transaction
 			session.getTransaction().commit();
 			System.out.println("Done !");

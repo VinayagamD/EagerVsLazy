@@ -10,12 +10,14 @@ import org.hibernate.cfg.Configuration;
 import com.vinay.onetoonemapping.entity.Course;
 import com.vinay.onetoonemapping.entity.Instructor;
 import com.vinay.onetoonemapping.entity.InstructorDetail;
+import com.vinay.onetoonemapping.entity.Review;
+import com.vinay.onetoonemapping.entity.Student;
 
 /**
  * @author Dell
  *
  */
-public class CreateCoursesDemo {
+public class DeleteMaryStudentDemo {
 
 	/**
 	 * @param args
@@ -26,6 +28,8 @@ public class CreateCoursesDemo {
 				addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
+				.addAnnotatedClass(Review.class)
+				.addAnnotatedClass(Student.class)
 				.buildSessionFactory();
 		// create session
 		Session session = factory.getCurrentSession();
@@ -35,18 +39,20 @@ public class CreateCoursesDemo {
 			// start a transaction
 			session.beginTransaction();
 
-			// get the instructor id from the db
-			int id = 4;
-			Instructor instructor = session.get(Instructor.class, id);
-			// create some courses
-			Course course1 = new Course("Air Guitar - The Ultimate Guide ");
-			Course course2 = new Course("The Pinball Masterclass ");
-			// add courses to instructor
-			instructor.add(course1);
-			instructor.add(course2);
-			// save the courses
-			session.save(course1);
-			session.save(course2);
+			// get the student from the database
+			int studentId =2;
+			Student student = session.get(Student.class,studentId);
+			
+			
+			
+			
+			System.out.println("\nLoaded student : "+student);
+			System.out.println("Courses: " + student.getCourses());
+			
+//			delete the student
+			System.out.println("\nDeleting the Student "+student);
+			session.delete(student);
+
 			// commit the transaction
 			session.getTransaction().commit();
 			System.out.println("Done !");

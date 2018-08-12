@@ -10,12 +10,14 @@ import org.hibernate.cfg.Configuration;
 import com.vinay.onetoonemapping.entity.Course;
 import com.vinay.onetoonemapping.entity.Instructor;
 import com.vinay.onetoonemapping.entity.InstructorDetail;
+import com.vinay.onetoonemapping.entity.Review;
+import com.vinay.onetoonemapping.entity.Student;
 
 /**
  * @author Dell
  *
  */
-public class GetInstructorCoursesDemo {
+public class GetCoursesForMaryDemo {
 
 	/**
 	 * @param args
@@ -26,6 +28,8 @@ public class GetInstructorCoursesDemo {
 				addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
 				.addAnnotatedClass(Course.class)
+				.addAnnotatedClass(Review.class)
+				.addAnnotatedClass(Student.class)
 				.buildSessionFactory();
 		// create session
 		Session session = factory.getCurrentSession();
@@ -35,13 +39,16 @@ public class GetInstructorCoursesDemo {
 			// start a transaction
 			session.beginTransaction();
 
-			// get the instructor id from the db
-			int id = 4;
-			Instructor instructor = session.get(Instructor.class, id);
-			System.out.println("Instructor : "+instructor);
+			// get the student from the database
+			int studentId = 1;
+			Student student = session.get(Student.class,studentId);
+			
+			
+			
+			
+			System.out.println("\nLoaded student : "+student);
+			System.out.println("Courses: " + student.getCourses());
 
-			// get the course for the instructor
-			System.out.println("Courses : "+ instructor.getCourses());
 			// commit the transaction
 			session.getTransaction().commit();
 			System.out.println("Done !");
